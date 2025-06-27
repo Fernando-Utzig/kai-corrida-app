@@ -50,17 +50,17 @@ const ChatWithKai = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-background-primary flex flex-col">
       {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4 lg:p-6">
+      <div className="bg-background-component border-b border-text-secondary/20 p-4 lg:p-6">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-accent-action rounded-full flex items-center justify-center">
               <span className="text-2xl">🐆</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">Chat com o Kai</h1>
-              <p className="text-gray-400 text-sm">Seu coach pessoal está online</p>
+              <h1 className="text-xl font-bold text-text-primary">Chat com o Kai</h1>
+              <p className="text-text-secondary text-sm">Seu coach pessoal está online</p>
             </div>
           </div>
         </div>
@@ -78,19 +78,19 @@ const ChatWithKai = () => {
                 <div
                   className={`p-4 rounded-2xl ${
                     msg.sender === 'user'
-                      ? 'bg-orange-500 text-white ml-4'
-                      : 'bg-gray-800 text-gray-100 border border-gray-700'
+                      ? 'bg-accent-action text-background-primary ml-4'
+                      : 'bg-background-component text-text-primary border border-text-secondary/20'
                   }`}
                 >
                   {msg.sender === 'kai' && (
                     <div className="flex items-center space-x-2 mb-2">
                       <span className="text-lg">🐆</span>
-                      <span className="text-sm font-semibold text-orange-400">Kai</span>
+                      <span className="text-sm font-semibold text-accent-action">Kai</span>
                     </div>
                   )}
                   <p className="text-sm lg:text-base">{msg.text}</p>
                 </div>
-                <p className={`text-xs text-gray-500 mt-1 ${msg.sender === 'user' ? 'text-right mr-4' : 'ml-4'}`}>
+                <p className={`text-xs text-text-secondary mt-1 ${msg.sender === 'user' ? 'text-right mr-4' : 'ml-4'}`}>
                   {msg.timestamp}
                 </p>
               </div>
@@ -100,9 +100,9 @@ const ChatWithKai = () => {
       </div>
 
       {/* Quick Suggestions */}
-      <div className="bg-gray-800 border-t border-gray-700 p-4">
+      <div className="bg-background-component border-t border-text-secondary/20 p-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-gray-400 text-sm mb-3">Sugestões rápidas:</p>
+          <p className="text-text-secondary text-sm mb-3">Sugestões rápidas:</p>
           <div className="flex flex-wrap gap-2">
             {[
               'Como melhorar meu pace?',
@@ -113,7 +113,7 @@ const ChatWithKai = () => {
               <button
                 key={index}
                 onClick={() => setMessage(suggestion)}
-                className="bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 py-2 rounded-full text-sm transition-colors"
+                className="bg-background-primary hover:bg-text-secondary/20 text-text-primary px-3 py-2 rounded-full text-sm transition-colors border border-text-secondary/30"
               >
                 {suggestion}
               </button>
@@ -123,7 +123,7 @@ const ChatWithKai = () => {
       </div>
 
       {/* Message Input */}
-      <div className="bg-gray-800 border-t border-gray-700 p-4 lg:p-6">
+      <div className="bg-background-component border-t border-text-secondary/20 p-4 lg:p-6">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center space-x-4">
             <div className="flex-1 relative">
@@ -133,19 +133,19 @@ const ChatWithKai = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Digite sua mensagem para o Kai..."
-                className="w-full bg-gray-700 border border-gray-600 rounded-full px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full bg-background-primary border border-text-secondary/20 rounded-full px-4 py-3 text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-accent-action focus:border-transparent"
               />
             </div>
             <div className="flex items-center space-x-2">
-              <button className="p-3 text-gray-400 hover:text-orange-400 transition-colors">
+              <button className="p-3 text-text-secondary hover:text-accent-action transition-colors">
                 <Image size={20} />
               </button>
-              <button className="p-3 text-gray-400 hover:text-orange-400 transition-colors">
+              <button className="p-3 text-text-secondary hover:text-accent-action transition-colors">
                 <Mic size={20} />
               </button>
               <button
                 onClick={handleSendMessage}
-                className="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full transition-colors"
+                className="bg-accent-action hover:bg-accent-action/90 text-background-primary p-3 rounded-full transition-colors"
               >
                 <Send size={20} />
               </button>
