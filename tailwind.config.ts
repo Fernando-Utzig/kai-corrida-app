@@ -19,6 +19,14 @@ export default {
 		},
 		extend: {
 			colors: {
+				// New Stealth Palette
+				'background-primary': '#1A1A1A',
+				'background-component': '#2B2B2B',
+				'text-primary': '#E0E0E0',
+				'text-secondary': '#888888',
+				'accent-action': '#FFFFFF',
+				
+				// Keep existing shadcn variables for compatibility
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',

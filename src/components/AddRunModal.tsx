@@ -73,35 +73,35 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
 
   const sliderStyle = {
     rail: {
-      backgroundColor: '#374151',
+      backgroundColor: '#2B2B2B',
       height: 8,
     },
     track: {
-      backgroundColor: '#f97316',
+      backgroundColor: '#FFFFFF',
       height: 8,
     },
     handle: {
-      borderColor: '#f97316',
-      backgroundColor: '#f97316',
-      boxShadow: '0 0 0 2px rgba(249, 115, 22, 0.2)',
+      borderColor: '#FFFFFF',
+      backgroundColor: '#FFFFFF',
+      boxShadow: '0 0 0 2px rgba(255, 255, 255, 0.2)',
       width: 20,
       height: 20,
       marginTop: -6,
     },
     handleActive: {
-      boxShadow: '0 0 0 4px rgba(249, 115, 22, 0.3)',
+      boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.3)',
     },
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-gray-800 border-gray-700 mx-4 my-8">
+      <DialogContent className="sm:max-w-md bg-background-component border-text-secondary/30 mx-4 my-8">
         <DialogHeader>
-          <DialogTitle className="text-white">Registrar Nova Corrida</DialogTitle>
+          <DialogTitle className="text-text-primary">Registrar Nova Corrida</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 p-2">
           <div>
-            <label className="text-sm font-medium text-gray-300 mb-2 block">
+            <label className="text-sm font-medium text-text-primary mb-2 block">
               Data da Corrida
             </label>
             <Popover>
@@ -109,29 +109,29 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full justify-start text-left font-normal bg-gray-900 border-gray-600 text-gray-300",
-                    !date && "text-muted-foreground"
+                    "w-full justify-start text-left font-normal bg-background-primary border-text-secondary/30 text-text-primary",
+                    !date && "text-text-secondary"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date ? format(date, "PPP", { locale: ptBR }) : <span>Selecione uma data</span>}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-gray-800 border-gray-600" align="start">
+              <PopoverContent className="w-auto p-0 bg-background-component border-text-secondary/30" align="start">
                 <Calendar
                   mode="single"
                   selected={date}
                   onSelect={setDate}
                   initialFocus
-                  className="p-3 pointer-events-auto bg-gray-800 text-white"
+                  className="p-3 pointer-events-auto bg-background-component text-text-primary"
                 />
               </PopoverContent>
             </Popover>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-300 mb-3 block">
-              Distância: <span className="text-orange-400 font-bold">{distance.toFixed(1)} km</span>
+            <label className="text-sm font-medium text-text-primary mb-3 block">
+              Distância: <span className="text-accent-action font-bold">{distance.toFixed(1)} km</span>
             </label>
             <div className="px-2">
               <Slider
@@ -142,7 +142,7 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
                 onChange={(value) => setDistance(value as number)}
                 styles={sliderStyle}
               />
-              <div className="flex justify-between text-xs text-gray-400 mt-1">
+              <div className="flex justify-between text-xs text-text-secondary mt-1">
                 <span>0.5 km</span>
                 <span>42.2 km</span>
               </div>
@@ -150,7 +150,7 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-300 mb-2 block">
+            <label className="text-sm font-medium text-text-primary mb-2 block">
               Duração
             </label>
             <div className="time-picker-container">
@@ -165,20 +165,20 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Live Pace Display */}
-          <div className="bg-gray-900 border border-gray-600 rounded-lg p-4">
-            <p className="text-sm text-gray-400 mb-1">Seu Pace será:</p>
-            <p className="text-xl font-bold text-orange-400">{calculatedPace} min/km</p>
+          <div className="bg-background-primary border border-text-secondary/30 rounded-lg p-4">
+            <p className="text-sm text-text-secondary mb-1">Seu Pace será:</p>
+            <p className="text-xl font-bold text-accent-action">{calculatedPace} min/km</p>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-300 mb-2 block">
+            <label className="text-sm font-medium text-text-primary mb-2 block">
               Anotações (opcional)
             </label>
             <Textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Como foi sua corrida?"
-              className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
+              className="bg-background-primary border-text-secondary/30 text-text-primary placeholder:text-text-secondary"
               rows={3}
             />
           </div>
@@ -188,14 +188,14 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1 bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600 hover:text-white"
+              className="flex-1 bg-transparent border-text-secondary/30 text-text-primary hover:bg-background-primary hover:text-accent-action"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isAddingRun || !date || !distance || !duration}
-              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
+              className="flex-1 bg-accent-action hover:bg-accent-action/90 text-background-primary font-medium"
             >
               {isAddingRun ? 'Salvando...' : 'Salvar Corrida'}
             </Button>
@@ -208,30 +208,30 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
           }
           
           .react-time-picker--dark .react-time-picker__wrapper {
-            background-color: #111827;
-            border: 1px solid #4b5563;
+            background-color: #1A1A1A;
+            border: 1px solid rgba(136, 136, 136, 0.3);
             border-radius: 6px;
             padding: 8px 12px;
           }
           
           .react-time-picker--dark .react-time-picker__inputGroup {
-            color: white;
+            color: #E0E0E0;
           }
           
           .react-time-picker--dark .react-time-picker__inputGroup__input {
             background: transparent;
             border: none;
-            color: white;
+            color: #E0E0E0;
             font-size: 14px;
           }
           
           .react-time-picker--dark .react-time-picker__inputGroup__input:focus {
             outline: none;
-            background-color: rgba(249, 115, 22, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
           }
           
           .react-time-picker--dark .react-time-picker__inputGroup__divider {
-            color: #9ca3af;
+            color: #888888;
           }
           
           .react-time-picker--dark .react-time-picker__clear-button,
