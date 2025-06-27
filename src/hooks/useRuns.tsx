@@ -68,13 +68,13 @@ export const useRuns = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['runs'] });
       toast({
-        title: (
+        title: "Parabéns!",
+        description: (
           <div className="flex items-center gap-3">
             <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-2xl">👍</span>
             </div>
             <div>
-              <p className="font-semibold">Parabéns!</p>
               <p className="text-sm text-gray-400">Corrida registrada com sucesso. Continue assim!</p>
             </div>
           </div>
