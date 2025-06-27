@@ -112,6 +112,50 @@ export type Database = {
           },
         ]
       }
+      training_plan_runs: {
+        Row: {
+          created_at: string
+          goal_id: number | null
+          id: number
+          run_type: string
+          status: string
+          suggested_distance_km: number
+          suggested_duration_minutes: number | null
+          suggested_run_date: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          goal_id?: number | null
+          id?: number
+          run_type: string
+          status?: string
+          suggested_distance_km: number
+          suggested_duration_minutes?: number | null
+          suggested_run_date: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          goal_id?: number | null
+          id?: number
+          run_type?: string
+          status?: string
+          suggested_distance_km?: number
+          suggested_duration_minutes?: number | null
+          suggested_run_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_training_plan_runs_goal_id"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

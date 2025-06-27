@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { BarChart3, MessageCircle, Calendar, Trophy, Menu, X, LogOut } from 'lucide-react';
+import { BarChart3, MessageCircle, Calendar, Trophy, Menu, X, LogOut, Brain } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
@@ -15,7 +14,7 @@ const Layout = () => {
   const navItems = [
     { to: '/', label: 'Painel', icon: BarChart3 },
     { to: '/runs', label: 'Minhas Corridas', icon: Trophy },
-    { to: '/plan', label: 'Meu Plano', icon: Calendar },
+    { to: '/plan', label: 'Plano Inteligente', icon: Brain },
     { to: '/chat', label: 'Chat com o Kai', icon: MessageCircle },
   ];
 

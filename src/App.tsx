@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import Dashboard from "./components/Dashboard";
 import MyRuns from "./components/MyRuns";
-import MyPlan from "./components/MyPlan";
+import IntelligentPlan from "./components/IntelligentPlan";
 import ChatWithKai from "./components/ChatWithKai";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -32,7 +32,7 @@ const App = () => (
             }>
               <Route index element={<Dashboard />} />
               <Route path="runs" element={<MyRuns />} />
-              <Route path="plan" element={<MyPlan />} />
+              <Route path="plan" element={<IntelligentPlan />} />
               <Route path="chat" element={<ChatWithKai />} />
             </Route>
             <Route path="*" element={<NotFound />} />
