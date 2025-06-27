@@ -1,11 +1,14 @@
 
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { BarChart3, MessageCircle, Calendar, Trophy, Menu, X } from 'lucide-react';
+import { BarChart3, MessageCircle, Calendar, Trophy, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { to: '/', label: 'Painel', icon: BarChart3 },
@@ -13,6 +16,10 @@ const Layout = () => {
     { to: '/plan', label: 'Meu Plano', icon: Calendar },
     { to: '/chat', label: 'Chat com o Kai', icon: MessageCircle },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   const NavItems = () => (
     <>
@@ -65,15 +72,26 @@ const Layout = () => {
 
             {/* Bottom Section */}
             <div className="px-4 py-4 border-t border-gray-700">
-              <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg mb-3">
                 <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
                   <span className="text-sm">👤</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-white">Usuário</p>
+                  <p className="text-sm font-medium text-white truncate">
+                    {user?.email || 'Usuário'}
+                  </p>
                   <p className="text-xs text-gray-400">Corredor</p>
                 </div>
               </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700"
+              >
+                <LogOut size={16} className="mr-2" />
+                Sair
+              </Button>
             </div>
           </div>
         </div>
@@ -101,6 +119,17 @@ const Layout = () => {
           <div className="lg:hidden bg-gray-800 border-b border-gray-700">
             <nav className="px-4 py-4 space-y-2">
               <NavItems />
+              <div className="pt-4 border-t border-gray-700">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700"
+                >
+                  <LogOut size={16} className="mr-2" />
+                  Sair
+                </Button>
+              </div>
             </nav>
           </div>
         )}

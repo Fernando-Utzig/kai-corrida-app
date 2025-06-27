@@ -9,7 +9,109 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      goals: {
+        Row: {
+          created_at: string
+          id: number
+          status: string
+          target_date: string
+          target_distance_km: number
+          target_time_minutes: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          status?: string
+          target_date: string
+          target_distance_km: number
+          target_time_minutes: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          status?: string
+          target_date?: string
+          target_distance_km?: number
+          target_time_minutes?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          birth_date: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          running_frequency_per_week: number | null
+        }
+        Insert: {
+          birth_date?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          running_frequency_per_week?: number | null
+        }
+        Update: {
+          birth_date?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          running_frequency_per_week?: number | null
+        }
+        Relationships: []
+      }
+      runs: {
+        Row: {
+          created_at: string
+          distance_km: number
+          duration_minutes: number
+          id: number
+          notes: string | null
+          pace_min_per_km: number
+          run_date: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          distance_km: number
+          duration_minutes: number
+          id?: number
+          notes?: string | null
+          pace_min_per_km: number
+          run_date: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          distance_km?: number
+          duration_minutes?: number
+          id?: number
+          notes?: string | null
+          pace_min_per_km?: number
+          run_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "runs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
