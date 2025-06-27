@@ -222,9 +222,11 @@ const Dashboard = () => {
           {/* Kai's Tips */}
           <div className="bg-background-component border border-text-secondary/20 rounded-xl p-6">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-accent-action rounded-full flex items-center justify-center">
-                <span className="text-2xl">🐆</span>
-              </div>
+              <img 
+                src="/lovable-uploads/40ad6510-de2a-4e91-b092-e75e0c586e7c.png" 
+                alt="Mascote Kai" 
+                className="h-12 w-12 rounded-full object-cover"
+              />
               <h3 className="text-xl font-semibold text-text-primary">Dica do Kai</h3>
             </div>
             <div className="bg-background-primary rounded-lg p-4">

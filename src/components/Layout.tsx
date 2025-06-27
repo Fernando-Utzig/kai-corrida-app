@@ -57,9 +57,11 @@ const Layout = () => {
             {/* Logo */}
             <div className="flex items-center flex-shrink-0 px-4 mb-8">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-accent-action rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">🐆</span>
-                </div>
+                <img 
+                  src="/lovable-uploads/40ad6510-de2a-4e91-b092-e75e0c586e7c.png" 
+                  alt="Logo KaiTrainer" 
+                  className="h-10 w-10 rounded-lg"
+                />
                 <div>
                   <h1 className="text-xl font-bold text-accent-action">KaiTrainer</h1>
                   <p className="text-xs text-text-secondary">Seu coach de corrida</p>
@@ -103,9 +105,11 @@ const Layout = () => {
       <div className="lg:hidden">
         <div className="flex items-center justify-between bg-background-component px-4 py-3 border-b border-text-secondary/20">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-accent-action rounded-lg flex items-center justify-center">
-              <span className="text-lg">🐆</span>
-            </div>
+            <img 
+              src="/lovable-uploads/40ad6510-de2a-4e91-b092-e75e0c586e7c.png" 
+              alt="Logo KaiTrainer" 
+              className="h-8 w-8 rounded-lg"
+            />
             <h1 className="text-lg font-bold text-accent-action">KaiTrainer</h1>
           </div>
           <button
