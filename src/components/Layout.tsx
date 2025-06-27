@@ -4,11 +4,13 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { BarChart3, MessageCircle, Calendar, Trophy, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useProfile } from '@/hooks/useProfile';
 import { Button } from '@/components/ui/button';
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { profile } = useProfile();
 
   const navItems = [
     { to: '/', label: 'Painel', icon: BarChart3 },
@@ -78,7 +80,7 @@ const Layout = () => {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-white truncate">
-                    {user?.email || 'Usuário'}
+                    {profile?.full_name || user?.email || 'Usuário'}
                   </p>
                   <p className="text-xs text-gray-400">Corredor</p>
                 </div>

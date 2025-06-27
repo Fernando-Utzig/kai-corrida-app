@@ -10,6 +10,12 @@ const Dashboard = () => {
   const { profile, isLoading: profileLoading } = useProfile();
   const { mostRecentRun, runs } = useRuns();
 
+  // Extract first name from full name
+  const getFirstName = (fullName: string | null) => {
+    if (!fullName) return 'Corredor';
+    return fullName.split(' ')[0];
+  };
+
   const stats = [
     {
       label: 'Corridas Este Mês',
@@ -55,14 +61,14 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
-                {profileLoading ? (
-                  'Bem-vindo de volta, Corredor! 🏃‍♂️'
-                ) : (
-                  `Bem-vindo de volta, ${profile?.full_name || 'Corredor'}! 🏃‍♂️`
-                )}
+                Bem-vindo de volta, Corredor! 🏃‍♂️
               </h1>
               <p className="text-gray-400 text-lg">
-                Pronto para mais uma corrida incrível hoje?
+                {profileLoading ? (
+                  'Pronto para mais uma corrida incrível hoje?'
+                ) : (
+                  `${getFirstName(profile?.full_name)}, pronto para mais uma corrida incrível hoje?`
+                )}
               </p>
             </div>
             <div className="hidden lg:block">
