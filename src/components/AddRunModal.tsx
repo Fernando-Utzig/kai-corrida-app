@@ -202,7 +202,7 @@ const AddRunModal: React.FC<AddRunModalProps> = ({ isOpen, onClose }) => {
           </div>
         </form>
 
-        <style jsx>{`
+        <style>{`
           .time-picker-container .react-time-picker {
             width: 100%;
           }
