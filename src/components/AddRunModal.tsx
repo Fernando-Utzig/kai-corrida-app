@@ -76,17 +76,17 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
       queryClient.invalidateQueries({ queryKey: ['dashboard-stats'] });
 
       toast({
-        title: (
+        title: "Corrida registrada!",
+        description: (
           <div className="flex items-center space-x-2">
             <img 
               src="/lovable-uploads/40ad6510-de2a-4e91-b092-e75e0c586e7c.png" 
               alt="Mascote Kai dando parabéns" 
               className="h-10 w-10 rounded-full object-cover"
             />
-            <span>Corrida registrada!</span>
+            <span>Kai está orgulhoso do seu progresso! Continue assim! 🏃‍♂️</span>
           </div>
         ),
-        description: "Kai está orgulhoso do seu progresso! Continue assim! 🏃‍♂️",
       });
 
       // Reset form
