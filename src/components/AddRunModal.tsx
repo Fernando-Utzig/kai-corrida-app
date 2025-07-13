@@ -161,6 +161,7 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
                      onSelect={(newDate) => newDate && setDate(newDate)}
                      initialFocus
                      className="bg-background-component text-text-primary pointer-events-auto"
+                     defaultMonth={date}
                    />
                  </PopoverContent>
               </Popover>
