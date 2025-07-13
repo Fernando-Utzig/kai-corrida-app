@@ -77,25 +77,31 @@ const Auth = () => {
       return;
     }
     setLoading(true);
-    const { error } = await signUp(basic.email, basic.password, basic.name);
-    // Tentar obter o user.id do retorno do signUp
-    const session = await supabase.auth.getSession();
-    const user = session.data.session?.user;
-    if (error) {
-      alert('Erro ao criar conta: ' + error.message);
-      setLoading(false);
-      return;
+    
+    try {
+      const { error } = await signUp(basic.email, basic.password, basic.name);
+      
+      if (error) {
+        // Se for erro de usuário já existente
+        if (error.message.includes('already registered') || error.message.includes('User already registered')) {
+          alert('Este e-mail já está cadastrado. Tente fazer login ou use outro e-mail.');
+        } else {
+          alert('Erro ao criar conta: ' + error.message);
+        }
+        setLoading(false);
+        return;
+      }
+
+      // Usuario criado com sucesso - sempre pedir para confirmar email
+      alert('Cadastro realizado! Por favor, confirme seu e-mail antes de continuar. Após a confirmação, faça login normalmente.');
+      setTab('login');
+      
+    } catch (err) {
+      console.error('Erro no cadastro:', err);
+      alert('Erro inesperado ao criar conta. Tente novamente.');
     }
-    if (user && user.id) {
-      setUserId(user.id);
-      setStep(2);
-      setLoading(false);
-      return;
-    }
-    // Se não estiver autenticado, pedir para confirmar o e-mail
+    
     setLoading(false);
-    alert('Cadastro realizado! Por favor, confirme seu e-mail antes de continuar. Após a confirmação, faça login normalmente.');
-    setTab('login');
   };
 
   // Cadastro - Etapa 2
