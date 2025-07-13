@@ -142,13 +142,16 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
             <div className="space-y-2">
               <Label htmlFor="run-date" className="text-text-primary">Data da Corrida</Label>
               <div className="relative">
-                <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-text-primary pointer-events-none" />
+                <CalendarIcon 
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-text-primary cursor-pointer z-10" 
+                  onClick={() => document.getElementById('run-date')?.focus()}
+                />
                 <Input
                   id="run-date"
                   type="date"
                   value={format(date, "yyyy-MM-dd")}
                   onChange={(e) => setDate(new Date(e.target.value))}
-                  className="pl-10 bg-background-component border-text-secondary/20 text-text-primary"
+                  className="pl-10 bg-background-component border-text-secondary/20 text-text-primary [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-3 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                 />
               </div>
             </div>
