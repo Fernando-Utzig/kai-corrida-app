@@ -146,7 +146,8 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-text-primary cursor-pointer z-10" 
                   onClick={() => {
                     const input = document.getElementById('run-date') as HTMLInputElement;
-                    input?.showPicker?.();
+                    input?.focus();
+                    input?.click();
                   }}
                 />
                 <Input
