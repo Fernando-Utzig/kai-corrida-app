@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon, Clock } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
+import { CalendarIcon, Clock, Zap } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -13,9 +14,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
-import TimePicker from 'react-time-picker';
-import 'react-time-picker/dist/TimePicker.css';
-import 'react-clock/dist/Clock.css';
 
 interface AddRunModalProps {
   isOpen: boolean;
@@ -24,8 +22,10 @@ interface AddRunModalProps {
 
 const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
   const [date, setDate] = useState<Date>(new Date());
-  const [distance, setDistance] = useState('');
-  const [duration, setDuration] = useState('10:00');
+  const [distance, setDistance] = useState([5]); // Array for slider
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(30);
+  const [seconds, setSeconds] = useState(0);
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -33,10 +33,35 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
+  // Calculate pace dynamically
+  const pace = useMemo(() => {
+    const totalMinutes = hours * 60 + minutes + seconds / 60;
+    const distanceKm = distance[0];
+    
+    if (totalMinutes > 0 && distanceKm > 0) {
+      const paceMinPerKm = totalMinutes / distanceKm;
+      const paceMin = Math.floor(paceMinPerKm);
+      const paceSec = Math.round((paceMinPerKm - paceMin) * 60);
+      return `${paceMin}:${paceSec.toString().padStart(2, '0')} min/km`;
+    }
+    return '--:-- min/km';
+  }, [distance, hours, minutes, seconds]);
+
+  // Format distance display
+  const formatDistance = (km: number) => {
+    if (km < 1) {
+      return `${Math.round(km * 1000)}m`;
+    }
+    return `${km.toFixed(1)}km`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!user || !distance || !duration) {
+    const totalMinutes = hours * 60 + minutes + seconds / 60;
+    const distanceKm = distance[0];
+    
+    if (!user || distanceKm <= 0 || totalMinutes <= 0) {
       toast({
         title: "Erro",
         description: "Preencha todos os campos obrigatórios.",
@@ -48,13 +73,8 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
     setIsSubmitting(true);
 
     try {
-      // Parse duration from string (HH:MM) to minutes
-      const [hours, minutes] = duration.split(':').map(Number);
-      const durationMinutes = hours * 60 + minutes;
-      
       // Calculate pace (minutes per km)
-      const distanceKm = parseFloat(distance);
-      const paceMinPerKm = durationMinutes / distanceKm;
+      const paceMinPerKm = totalMinutes / distanceKm;
 
       const { error } = await supabase
         .from('runs')
@@ -63,7 +83,7 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
             user_id: user.id,
             run_date: date.toISOString(),
             distance_km: distanceKm,
-            duration_minutes: durationMinutes,
+            duration_minutes: totalMinutes,
             pace_min_per_km: paceMinPerKm,
             notes: notes || null,
           },
@@ -90,8 +110,10 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
       });
 
       // Reset form
-      setDistance('');
-      setDuration('10:00');
+      setDistance([5]);
+      setHours(0);
+      setMinutes(30);
+      setSeconds(0);
       setNotes('');
       setDate(new Date());
       
@@ -109,66 +131,7 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
   };
 
   return (
-    <>
-      <style>
-        {`
-          .react-time-picker__wrapper {
-            background-color: #2B2B2B !important;
-            border: 1px solid rgba(136, 136, 136, 0.2) !important;
-            border-radius: 6px !important;
-            padding: 8px 12px !important;
-            color: #E0E0E0 !important;
-            width: 100% !important;
-          }
-          .react-time-picker__inputGroup {
-            color: #E0E0E0 !important;
-          }
-          .react-time-picker__inputGroup__input {
-            background: transparent !important;
-            color: #E0E0E0 !important;
-            border: none !important;
-          }
-          .react-time-picker__inputGroup__divider {
-            color: #888888 !important;
-          }
-          .react-time-picker__button {
-            background: transparent !important;
-            border: none !important;
-            color: #888888 !important;
-            padding: 4px !important;
-          }
-          .react-time-picker__button:hover {
-            color: #FFFFFF !important;
-          }
-          .react-time-picker__button svg {
-            stroke: currentColor !important;
-          }
-          .react-time-picker__clock {
-            background-color: #2B2B2B !important;
-            border: 1px solid rgba(136, 136, 136, 0.2) !important;
-          }
-          .react-clock {
-            background: #2B2B2B !important;
-          }
-          .react-clock__face {
-            border-color: rgba(136, 136, 136, 0.2) !important;
-          }
-          .react-clock__mark {
-            background-color: #888888 !important;
-          }
-          .react-clock__mark__body {
-            background-color: #888888 !important;
-          }
-          .react-clock__hand {
-            background-color: #FFFFFF !important;
-          }
-          .react-clock__hand__body {
-            background-color: #FFFFFF !important;
-          }
-        `}
-      </style>
-      
-      <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="bg-background-component border border-text-secondary/20 text-text-primary sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-text-primary">Registrar Nova Corrida</DialogTitle>
@@ -191,50 +154,95 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
                     {date ? format(date, "PPP", { locale: ptBR }) : "Selecione uma data"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-background-component border-text-secondary/20" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(newDate) => newDate && setDate(newDate)}
-                    initialFocus
-                    className="bg-background-component text-text-primary"
-                  />
-                </PopoverContent>
+                 <PopoverContent className="w-auto p-0 bg-background-component border-text-secondary/20" align="start">
+                   <Calendar
+                     mode="single"
+                     selected={date}
+                     onSelect={(newDate) => newDate && setDate(newDate)}
+                     initialFocus
+                     className="bg-background-component text-text-primary pointer-events-auto"
+                   />
+                 </PopoverContent>
               </Popover>
             </div>
 
-            {/* Distance Input */}
-            <div className="space-y-2">
-              <Label htmlFor="distance" className="text-text-primary">Distância (km)</Label>
-              <Input
-                id="distance"
-                type="number"
-                step="0.1"
-                min="0.1"
+            {/* Distance Slider */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label className="text-text-primary">Distância</Label>
+                <div className="text-text-primary font-semibold text-lg">
+                  {formatDistance(distance[0])}
+                </div>
+              </div>
+              <Slider
                 value={distance}
-                onChange={(e) => setDistance(e.target.value)}
-                placeholder="Ex: 5.2"
-                className="bg-background-component border-text-secondary/20 text-text-primary placeholder-text-secondary focus:border-accent-action"
-                required
+                onValueChange={setDistance}
+                max={100}
+                min={0.1}
+                step={0.1}
+                className="w-full"
               />
+              <div className="flex justify-between text-sm text-text-secondary">
+                <span>0.1km</span>
+                <span>100km</span>
+              </div>
             </div>
 
             {/* Duration Input */}
-            <div className="space-y-2">
+            <div className="space-y-4">
               <Label className="text-text-primary flex items-center">
                 <Clock className="mr-2 h-4 w-4" />
                 Duração
               </Label>
-              <TimePicker
-                onChange={setDuration}
-                value={duration}
-                disableClock={true}
-                clearIcon={null}
-                clockIcon={null}
-                format="HH:mm"
-                maxDetail="minute"
-                className="w-full"
-              />
+              <div className="grid grid-cols-3 gap-3">
+                <div className="space-y-1">
+                  <Label className="text-xs text-text-secondary">Horas</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    max="23"
+                    value={hours}
+                    onChange={(e) => setHours(parseInt(e.target.value) || 0)}
+                    className="bg-background-component border-text-secondary/20 text-text-primary text-center"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs text-text-secondary">Minutos</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    max="59"
+                    value={minutes}
+                    onChange={(e) => setMinutes(parseInt(e.target.value) || 0)}
+                    className="bg-background-component border-text-secondary/20 text-text-primary text-center"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs text-text-secondary">Segundos</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    max="59"
+                    value={seconds}
+                    onChange={(e) => setSeconds(parseInt(e.target.value) || 0)}
+                    className="bg-background-component border-text-secondary/20 text-text-primary text-center"
+                  />
+                </div>
+              </div>
+              <div className="text-center text-sm text-text-secondary">
+                {hours > 0 && `${hours}h `}{minutes}m {seconds > 0 && `${seconds}s`}
+              </div>
+            </div>
+
+            {/* Pace Display */}
+            <div className="bg-background-primary/50 rounded-lg p-4 border border-accent-action/20">
+              <div className="flex items-center justify-center space-x-2">
+                <Zap className="h-5 w-5 text-accent-action" />
+                <div className="text-center">
+                  <div className="text-xs text-text-secondary uppercase tracking-wide">Pace</div>
+                  <div className="text-xl font-bold text-accent-action">{pace}</div>
+                </div>
+              </div>
             </div>
 
             {/* Notes Input */}
@@ -271,7 +279,6 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
           </form>
         </DialogContent>
       </Dialog>
-    </>
   );
 };
 
