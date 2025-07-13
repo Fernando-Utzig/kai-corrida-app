@@ -140,31 +140,17 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Date Selection */}
             <div className="space-y-2">
-              <Label className="text-text-primary">Data da Corrida</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal bg-background-component border-text-secondary/20 text-text-primary hover:bg-background-primary hover:text-accent-action",
-                      !date && "text-text-secondary"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP", { locale: ptBR }) : "Selecione uma data"}
-                  </Button>
-                </PopoverTrigger>
-                 <PopoverContent className="w-auto p-0 bg-background-component border-text-secondary/20" align="start">
-                   <Calendar
-                     mode="single"
-                     selected={date}
-                     onSelect={(newDate) => newDate && setDate(newDate)}
-                     initialFocus
-                     className="bg-background-component text-text-primary pointer-events-auto"
-                     defaultMonth={date}
-                   />
-                 </PopoverContent>
-              </Popover>
+              <Label htmlFor="run-date" className="text-text-primary">Data da Corrida</Label>
+              <div className="relative">
+                <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-text-secondary" />
+                <Input
+                  id="run-date"
+                  type="date"
+                  value={format(date, "yyyy-MM-dd")}
+                  onChange={(e) => setDate(new Date(e.target.value))}
+                  className="pl-10 bg-background-component border-text-secondary/20 text-text-primary"
+                />
+              </div>
             </div>
 
             {/* Distance Slider */}
