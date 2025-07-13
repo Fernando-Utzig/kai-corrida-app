@@ -177,14 +177,14 @@ const AddRunModal = ({ isOpen, onClose }: AddRunModalProps) => {
               <Slider
                 value={distance}
                 onValueChange={setDistance}
-                max={60}
+                max={42}
                 min={0.1}
                 step={0.1}
                 className="w-full"
               />
               <div className="flex justify-between text-sm text-text-secondary">
                 <span>0.1km</span>
-                <span>60km</span>
+                <span>42km</span>
               </div>
             </div>
 
